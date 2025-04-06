@@ -26,14 +26,14 @@ This essay compares these methods in terms of accuracy, coverage, real-time perf
 DGNSS corrects GNSS errors by comparing measurements from a nearby reference station with known coordinates and transmitting corrections to the smartphone.
 
 ### Advantages
-✅ **Moderate Accuracy (1-3 meters):** More precise than standard GNSS, suitable for apps like Google Maps  
-✅ **Low Cost:** Uses existing ground infrastructure, making it widely available  
-✅ **Real-Time Performance:** No significant delay, ideal for dynamic navigation  
+ **Moderate Accuracy (1-3 meters):** More precise than standard GNSS, suitable for apps like Google Maps  
+ **Low Cost:** Uses existing ground infrastructure, making it widely available  
+ **Real-Time Performance:** No significant delay, ideal for dynamic navigation  
 
 ### Limitations
-❌ **Limited Coverage:** Requires proximity to reference stations; ineffective in remote areas  
-❌ **Urban Challenges:** Multipath errors (signal reflections) degrade accuracy in cities  
-❌ **Not High-Precision:** Insufficient for applications like autonomous driving or AR  
+ **Limited Coverage:** Requires proximity to reference stations; ineffective in remote areas  
+ **Urban Challenges:** Multipath errors (signal reflections) degrade accuracy in cities  
+ **Not High-Precision:** Insufficient for applications like autonomous driving or AR  
 
 ---
 
@@ -43,14 +43,14 @@ DGNSS corrects GNSS errors by comparing measurements from a nearby reference sta
 RTK uses carrier-phase measurements from a reference station to achieve centimeter-level accuracy in real time.
 
 ### Advantages
-✅ **Extreme Precision (1-5 cm):** Perfect for AR, surveying, and drone navigation  
-✅ **Instant Corrections:** No convergence time—ideal for moving devices  
-✅ **High Dynamic Performance:** Works even at highway speeds  
+ **Extreme Precision (1-5 cm):** Perfect for AR, surveying, and drone navigation  
+ **Instant Corrections:** No convergence time—ideal for moving devices  
+ **High Dynamic Performance:** Works even at highway speeds  
 
 ### Limitations
-❌ **Dependent on Local Infrastructure:** Needs a dense network of base stations  
-❌ **High Power Consumption:** Drains smartphone batteries quickly  
-❌ **Signal Sensitivity:** Struggles in urban canyons or under heavy tree cover  
+ **Dependent on Local Infrastructure:** Needs a dense network of base stations  
+ **High Power Consumption:** Drains smartphone batteries quickly  
+ **Signal Sensitivity:** Struggles in urban canyons or under heavy tree cover  
 
 ---
 
@@ -60,14 +60,14 @@ RTK uses carrier-phase measurements from a reference station to achieve centimet
 PPP uses precise satellite orbit and clock corrections from global sources, eliminating the need for local reference stations.
 
 ### Advantages
-✅ **Global Coverage:** Works anywhere, including oceans and deserts  
-✅ **Decent Accuracy (10-30 cm):** Better than standard GNSS for remote applications  
-✅ **No Local Stations Needed:** Reduces infrastructure costs  
+ **Global Coverage:** Works anywhere, including oceans and deserts  
+ **Decent Accuracy (10-30 cm):** Better than standard GNSS for remote applications  
+ **No Local Stations Needed:** Reduces infrastructure costs  
 
 ### Limitations
-❌ **Slow Convergence:** Takes minutes to hours to achieve full accuracy  
-❌ **Not Truly Real-Time:** Latency makes it unsuitable for dynamic applications  
-❌ **Requires Internet:** Needs continuous correction updates  
+ **Slow Convergence:** Takes minutes to hours to achieve full accuracy  
+ **Not Truly Real-Time:** Latency makes it unsuitable for dynamic applications  
+ **Requires Internet:** Needs continuous correction updates  
 
 ---
 
@@ -77,14 +77,14 @@ PPP uses precise satellite orbit and clock corrections from global sources, elim
 PPP-RTK merges PPP's global corrections with RTK's fast convergence, offering near-instant, high-precision positioning.
 
 ### Advantages
-✅ **Fast Convergence (1-2 minutes):** Much quicker than PPP  
-✅ **Global + High Accuracy (2-10 cm):** Balances coverage and precision  
-✅ **Robust Performance:** Tolerates moderate signal interruptions  
+ **Fast Convergence (1-2 minutes):** Much quicker than PPP  
+ **Global + High Accuracy (2-10 cm):** Balances coverage and precision  
+ **Robust Performance:** Tolerates moderate signal interruptions  
 
 ### Limitations
-❌ **Emerging Technology:** Limited smartphone support (e.g., latest chipsets only)  
-❌ **Complex Setup:** Requires both satellite and network corrections  
-❌ **Higher Data Usage:** More bandwidth needed for real-time updates  
+ **Emerging Technology:** Limited smartphone support (e.g., latest chipsets only)  
+ **Complex Setup:** Requires both satellite and network corrections  
+ **Higher Data Usage:** More bandwidth needed for real-time updates  
 
 ---
 
