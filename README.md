@@ -2,7 +2,7 @@
 GenAI: Deepseek
 
 link: [https://github.com/Togure/AAE-6102-Assignment-2/edit/main/deepseek-Task1.png](https://github.com/Togure/AAE-6102-Assignment-2/blob/main/deepseek-Task1.png)
-# Comparing GNSS Techniques for Smartphone Navigation: Accuracy, Coverage, and Real-Time Performance
+## Comparing GNSS Techniques for Smartphone Navigation: Accuracy, Coverage, and Real-Time Performance
 
 ## Introduction
 Global Navigation Satellite Systems (GNSS), such as GPS, Galileo, and BeiDou, are fundamental to modern smartphone navigation. However, different applications demand varying levels of accuracy, coverage, and real-time performance. For example:
