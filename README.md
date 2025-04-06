@@ -1,5 +1,7 @@
 # AAE-6102-Assignment-2
-assignment for AAE 6102
+### Task 1
+GenAI: Deepseek
+link: https://github.com/Togure/AAE-6102-Assignment-2/edit/main/deepseek-Task1.png
 # Comparing GNSS Techniques for Smartphone Navigation: Accuracy, Coverage, and Real-Time Performance
 
 ## Introduction
