@@ -7,7 +7,7 @@ link: [https://github.com/Togure/AAE-6102-Assignment-2/edit/main/deepseek-Task1.
 ## Introduction
 Global Navigation Satellite Systems (GNSS) have evolved to support increasingly sophisticated smartphone navigation applications, each with distinct accuracy and operational requirements. Consumer-grade applications such as mapping and ride-hailing services typically demand meter-level accuracy, while advanced implementations including augmented reality and autonomous navigation systems require decimeter-to-centimeter precision. Furthermore, applications operating in remote environments necessitate global coverage without dependence on local infrastructure. This analysis examines four principal correction methodologies: Differential GNSS (DGNSS) for local-area corrections, Real-Time Kinematic (RTK) for high-precision positioning, Precise Point Positioning (PPP) for global precise solutions, and the hybrid PPP-RTK approach. Each technique is evaluated across critical parameters including accuracy, coverage, convergence characteristics, and implementation requirements.
 
-## 1. Differential GNSS (DGNSS)
+## 1. Differential GNSS (DGNSS) [1]
 
 ### Technical Principle
 DGNSS operates by comparing GNSS measurements between reference stations at known locations and mobile receivers, calculating differential corrections for common errors including atmospheric delays and satellite clock inaccuracies. These corrections are subsequently transmitted to mobile devices for real-time position refinement.
@@ -18,7 +18,7 @@ DGNSS offers significant improvements over standalone GNSS, enhancing typical po
 ### Limitations
 The effectiveness of DGNSS is constrained by its dependence on proximity to reference stations, with optimal performance typically limited to within 100 kilometers of correction sources. Urban environments present particular challenges due to signal multipath effects that can substantially degrade accuracy. While the system provides marked improvement over basic GNSS, its precision remains insufficient for applications requiring sub-meter accuracy. Performance consistently degrades with increasing distance from reference stations, limiting its utility in remote or infrastructure-sparse regions.
 
-## 2. Real-Time Kinematic (RTK)
+## 2. Real-Time Kinematic (RTK) [2]
 
 ### Technical Principle
 RTK positioning employs carrier-phase measurements from both reference stations and mobile receivers, resolving integer ambiguities in the carrier-phase data to achieve centimeter-level accuracy. This technique represents the gold standard for high-precision real-time positioning.
@@ -29,7 +29,7 @@ RTK delivers exceptional positioning accuracy in the range of 1-5 centimeters un
 ### Limitations
 The performance of RTK is heavily dependent on dense networks of reference stations, typically requiring station spacing of less than 20 kilometers. This infrastructure dependence limits its applicability in regions without adequate station coverage. The technique demands substantial processing power, resulting in significant battery consumption on mobile devices. Signal obstructions in urban canyons or dense foliage can severely degrade performance, and the system requires successful ambiguity resolution during initialization to achieve optimal accuracy.
 
-## 3. Precise Point Positioning (PPP)
+## 3. Precise Point Positioning (PPP) [3]
 
 ### Technical Principle
 PPP utilizes precise satellite orbit and clock products combined with dual-frequency measurements to achieve precise positioning without local reference stations. The technique incorporates advanced error modeling to mitigate atmospheric and other GNSS error sources across wide areas.
@@ -40,7 +40,7 @@ PPP's most significant advantage lies in its global coverage capability, operati
 ### Limitations
 The primary constraint of PPP is its extended convergence time, typically requiring 20-40 minutes to achieve optimal accuracy. The system's performance depends on timely delivery of satellite correction products, introducing latency considerations. Continuous internet connectivity is necessary for correction updates, and the technique demonstrates suboptimal performance for rapidly moving platforms during the convergence period. These characteristics limit PPP's suitability for real-time dynamic applications.
 
-## 4. PPP-RTK
+## 4. PPP-RTK [4]
 
 ### Technical Principle
 PPP-RTK represents an innovative hybrid approach that combines elements of PPP and RTK, utilizing both precise satellite products and regional atmospheric corrections. This synthesis enables faster convergence while maintaining wide-area coverage capabilities.
@@ -69,6 +69,16 @@ For urban navigation applications where meter-level accuracy suffices, DGNSS rem
 ## Conclusion
 The selection of an appropriate GNSS correction methodology requires careful consideration of accuracy requirements, coverage needs, and available infrastructure. While DGNSS adequately serves most consumer navigation applications, specialized implementations demand more advanced solutions. RTK remains unmatched for precision but carries significant infrastructure requirements, while PPP offers global coverage at the cost of extended convergence times. PPP-RTK represents a compelling middle ground that balances accuracy, coverage, and convergence characteristics, positioning it as the likely future standard for smartphone navigation as supporting technologies mature. Continued advancements in GNSS chipset capabilities and correction service availability will be crucial in realizing this potential.
 
+## Reference List
+[1] Hofmann-Wellenhof B, Lichtenegger H, Wasle E. GNSS–global navigation satellite systems: GPS, GLONASS, Galileo, and more[M]. Springer Science & Business Media, 2007.
+
+[2] Takasu T, Yasuda A. Development of the low-cost RTK-GPS receiver with an open source program package RTKLIB[C]//International symposium on GPS/GNSS. Seogwipo-si, Republic of Korea: International Convention Center Jeju Korea, 2009, 1: 1-6.
+
+[3] Zumberge J F, Heflin M B, Jefferson D C, et al. Precise point positioning for the efficient and robust analysis of GPS data from large networks[J]. Journal of geophysical research: solid earth, 1997, 102(B3): 5005-5017.
+
+[4] Wabbena G, Schmitz M, Bagge A. PPP-RTK: precise point positioning using state-space representation in RTK networks[C]//Proceedings of the 18th international technical meeting of the satellite division of the Institute of navigation (ION GNSS 2005). 2005: 2584-2594.
+
+
 # Task 4
 GenAI: Deepseek
 
@@ -77,9 +87,9 @@ link: [https://github.com/Togure/AAE-6102-Assignment-2/edit/main/deepseek-Task4.
 
 ## 1. Introduction
 
-Low Earth Orbit (LEO) satellite constellations have emerged as a potential augmentation to traditional Global Navigation Satellite Systems (GNSS), offering several distinct advantages. Operating at altitudes between 500-2,000 km, LEO systems exhibit significantly lower signal latency (20-30 ms) compared to Medium Earth Orbit (MEO) systems like GPS (120 ms). The closer proximity to Earth enables received signal strengths 10-100 times greater than conventional GNSS, particularly beneficial for urban canyon and indoor positioning scenarios. Furthermore, the rapid orbital motion of LEO satellites provides faster geometric diversity, enhancing positioning robustness against obstructions and interference.
+Low Earth Orbit (LEO) satellite constellations have emerged as a potential augmentation to traditional Global Navigation Satellite Systems (GNSS), offering several distinct advantages. Operating at altitudes between 500-2,000 km, LEO systems exhibit significantly lower signal latency (20-30 ms) compared to Medium Earth Orbit (MEO) systems like GPS (120 ms). The closer proximity to Earth enables received signal strengths 10-100 times greater than conventional GNSS, particularly beneficial for urban canyon and indoor positioning scenarios. Furthermore, the rapid orbital motion of LEO satellites provides faster geometric diversity, enhancing positioning robustness against obstructions and interference [1].
 
-However, these advantages come with substantial technical challenges. The high orbital velocity induces severe Doppler effects, while the limited coverage area of individual satellites necessitates large constellation sizes. Additionally, the dynamic LEO environment subjects satellites to pronounced atmospheric drag and gravitational perturbations, requiring frequent orbit determination updates. This paper systematically examines these challenges through current and proposed LEO navigation systems, including Iridium's operational STL service, SpaceX's experimental Starlink utilization, Xona's dedicated Pulsar constellation, and China's planned Hunyuan system. The analysis concludes with recommended mitigation strategies for future LEO navigation implementations.
+However, these advantages come with substantial technical challenges. The high orbital velocity induces severe Doppler effects, while the limited coverage area of individual satellites necessitates large constellation sizes. Additionally, the dynamic LEO environment subjects satellites to pronounced atmospheric drag and gravitational perturbations, requiring frequent orbit determination updates. This paper systematically examines these challenges through current and proposed LEO navigation systems, including Iridium's operational STL service, SpaceX's experimental Starlink utilization, Xona's dedicated Pulsar constellation, and China's planned Hunyuan system. The analysis concludes with recommended mitigation strategies for future LEO navigation implementations [2].
 
 ## 2. Fundamental Technical Challenges
 
@@ -113,8 +123,13 @@ Modern receiver designs must incorporate several key innovations to address LEO 
 
 The analysis reveals three principal findings regarding LEO navigation systems. First, Doppler management remains the primary technical challenge, requiring receiver processing capabilities substantially beyond current GNSS designs. Second, economic viability depends critically on dual-use infrastructure models that combine communication and navigation services. Third, successful deployment requires international standardization efforts addressing signal interoperability and spectrum sharing between LEO and GNSS systems. Future development should prioritize open signal interfaces, dynamic spectrum management frameworks, and multi-constellation interoperability standards to realize the full potential of LEO navigation augmentation.
 
+## Reference List
+[1] Prol F S, Ferre R M, Saleem Z, et al. Position, navigation, and timing (PNT) through low earth orbit (LEO) satellites: A survey on current status, challenges, and opportunities[J]. IEEE access, 2022, 10: 83971-84002.
+[2] Zhao X, Zhou S, Ci Y, et al. High-precision orbit determination for a LEO nanosatellite using BDS-3[J]. GPS Solutions, 2020, 24: 1-14.
 
 # Task 5
+GenAI: Deepseek
+
 link: [https://github.com/Togure/AAE-6102-Assignment-2/edit/main/deepseek-Task5.png](https://github.com/Togure/AAE-6102-Assignment-2/blob/main/deepseek-Task5.png)
 # The Role of GNSS Interferometric Reflectometry in Geometric Remote Sensing
 
@@ -154,8 +169,10 @@ Advancements in multi-frequency GNSS (e.g., GPS L5, Galileo E5) promise to mitig
 
 GNSS-IR has carved a niche in geometric remote sensing, offering a passive, cost-effective means to measure sea levels, structural heights, and land surface dynamics. While its applications in soil moisture and vegetation monitoring are noteworthy, its precision in altimetry and height estimation sets it apart from conventional methods. As GNSS constellations evolve and algorithms mature, GNSS-IR could democratize access to high-frequency geometric data, bridging gaps in global environmental and urban monitoring systems.
 
-reference list
+## Reference List
 
 [1] Larson K M, Löfgren J S, Haas R. Coastal sea level measurements using a single geodetic GPS receiver[J]. Advances in space research, 2013, 51(8): 1301-1310.
+
 [2] Ye M, Zhang G, Hsu L T. Building model rectification using GNSS reflectometry[J]. IEEE Geoscience and Remote Sensing Letters, 2024.
+
 [3] Chew C C, Small E E, Larson K M, et al. Effects of near-surface soil moisture on GPS SNR data: Development of a retrieval algorithm for soil moisture[J]. IEEE Transactions on Geoscience and Remote Sensing, 2013, 52(1): 537-543.
