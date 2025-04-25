@@ -82,6 +82,55 @@ The selection of an appropriate GNSS correction methodology requires careful con
 # Task 4
 GenAI: Deepseek
 
+## 1.Define 3D protection level (PL)
+
+The 3D protection level is based on three equations:
+
+Fault detection threshold (based on chi-square distribution):
+$$T_{\text{threshold}} = \chi^2_{1-P_{fa}, n-4} \cdot \sigma^2$$
+
+Missed detection probability constraint (based on non-central chi-square distribution):
+$$P_{md} = 1 - F_{\chi^2}(T_{\text{threshold}}; \lambda, n-4)$$
+
+Numerical solution of PL:
+$$F_{\chi^2}\left(\chi^2_{1-P_{fa}, n-4}; \frac{\text{PL}^2}{\sigma^2}, n-4\right) = 1 - P_{md}$$
+
+
+
+```matlab
+P_fa = 1e-2;
+sigma = 3;
+n_sat = 5; % number of tracked satelite 
+dof = n_sat - 4;
+T_threshold = chi2inv(1 - P_fa, dof) * sigma^2;
+
+fprintf('T_threshold = %.2f meters\n', T_threshold);
+
+P_md = 1e-7;
+fun = @(PL) ncx2cdf(T_threshold, dof, PL.^2 / sigma^2) - (1 - P_md);
+PL_guess = 50;
+PL = fzero(fun, PL_guess);
+
+fprintf('3D Protection Level = %.2f meters\n', PL);
+```
+The solution is :
+```matlab
+T_threshold = 59.71 meters;
+3D Protection Level = 7.58 meters;
+```
+## 2. Calculate residual
+the step to calculate residual is 
+```matlab
+   omc(i) = ( obs(i) - norm(Rot_X - pos(1:3), 'fro') - pos(4) - trop ); 
+```
+in leasquarepos.m function.
+
+the residual of WLS and LS method are as follows, within 8 meters totally.
+![Fig.1.1 The residual of WLS and LS of open-sky dataset.](https://github.com/Togure/AAE-6102-Assignment-2/blob/main/residual.jpg)  
+
+# Task 4
+GenAI: Deepseek
+
 link: [https://github.com/Togure/AAE-6102-Assignment-2/edit/main/deepseek-Task4.png](https://github.com/Togure/AAE-6102-Assignment-2/blob/main/deepseek-Task4.png)
 # Unique Challenges of Low Earth Orbit Satellite Navigation Systems
 
