@@ -82,51 +82,59 @@ The selection of an appropriate GNSS correction methodology requires careful con
 # Task 4
 GenAI: Deepseek
 
-## 1.Define 3D protection level (PL)
 
-The 3D protection level is based on three equations:
-
-Fault detection threshold (based on chi-square distribution):
-$$T_{\text{threshold}} = \chi^2_{1-P_{fa}, n-4} \cdot \sigma^2$$
-
-Missed detection probability constraint (based on non-central chi-square distribution):
-$$P_{md} = 1 - F_{\chi^2}(T_{\text{threshold}}; \lambda, n-4)$$
-
-Numerical solution of PL:
-$$F_{\chi^2}\left(\chi^2_{1-P_{fa}, n-4}; \frac{\text{PL}^2}{\sigma^2}, n-4\right) = 1 - P_{md}$$
-
-
-
-```matlab
-P_fa = 1e-2;
-sigma = 3;
-n_sat = 5; % number of tracked satelite 
-dof = n_sat - 4;
-T_threshold = chi2inv(1 - P_fa, dof) * sigma^2;
-
-fprintf('T_threshold = %.2f meters\n', T_threshold);
-
-P_md = 1e-7;
-fun = @(PL) ncx2cdf(T_threshold, dof, PL.^2 / sigma^2) - (1 - P_md);
-PL_guess = 50;
-PL = fzero(fun, PL_guess);
-
-fprintf('3D Protection Level = %.2f meters\n', PL);
-```
-The solution is :
-```matlab
-T_threshold = 59.71 meters;
-3D Protection Level = 7.58 meters;
-```
-## 2. Calculate residual
-the step to calculate residual is 
+## 1. Calculate Test Statistics
+In the leastsquarepos.m, the step to calculate residual $Y$ is 
 ```matlab
    omc(i) = ( obs(i) - norm(Rot_X - pos(1:3), 'fro') - pos(4) - trop ); 
 ```
-in leasquarepos.m function.
 
 the residual of WLS and LS method are as follows, within 8 meters totally.
 ![Fig.1.1 The residual of WLS and LS of open-sky dataset.](https://github.com/Togure/AAE-6102-Assignment-2/blob/main/residual.jpg)  
+
+then we calculate test statistics (WSSE) and T_{threshold} based on
+
+$WSSE = \sqrt{Y^TW(I-P)Y}$
+
+and
+
+$T(N,P_{FA}) = \sqrt{Q_{\chi^2,N-4}(1-P_{FA})}$
+
+where Qχ2,N−4(·) stands for the quantile function of Chi-square distribution with degree of freedom of N − 4. 
+```
+   WSSE_sqrt = sqrt(y'*W*(I-P)*y);
+```
+```
+   P_fa = 1e-2;
+   sigma = 3;
+   n_sat = 5; % number of tracked satelite 
+   dof = n_sat - 4;
+   T_threshold = sqrt(chi2inv(1 - P_fa, dof));
+```
+![Fig.1.2 Test statistics and T threshold.](https://github.com/Togure/AAE-6102-Assignment-2/blob/main/SSE.jpg)  
+
+## 2.Define 3D protection level (PL)
+
+
+TO calculate the  3D protection level, first, we should calculate the SLOPE:
+
+$SLOPE = \frac{\sqrt{S_{xi}^2+S_{yi}^2+S_{zi}^2}}{\sqrt{W_{ii}*(1-P_(ii))}}$
+
+and the PL:
+
+$PL = \max \{SLOPE\}*T_{threshold}(N,P_{FA})  + k(P_{MD}) * \sigma $
+
+where σ = 3m, and k(PMD) = QN(1 − PMD/2) where QN(·) is the quantile function of standard normal distribution [1].
+
+```
+   Pslope(i) = sqrt(sum((K(1:3,i)).^2)) * sqrt(1/W(i,i)) / sqrt(1-P(i,i));
+   PL = max(Pslope) * Detect_results.Thres + norminv(1-P_md/2) * URA;
+```
+## 3.Standford Chart
+
+![Fig.1.3 Standford Chart of the RAIM system.](https://github.com/Togure/AAE-6102-Assignment-2/blob/main/standford.jpg)  
+
+[1] R. G. Brown, G. Y. Chin, and J. H. Kraemer, “RAIM: Will It Meet the RTCA GPS Minimum Operational Performance Standards?” in Proceedings of the 1991 National Technical Meeting of The Institute of Navigation, 1991, pp. 103–111. [Online]. Available: https://www.ion.org/publications/abstract.cfm?articleID=5020
 
 # Task 4
 GenAI: Deepseek
@@ -226,3 +234,4 @@ GNSS-IR has carved a niche in geometric remote sensing, offering a passive, cost
 [2] Ye M, Zhang G, Hsu L T. Building model rectification using GNSS reflectometry[J]. IEEE Geoscience and Remote Sensing Letters, 2024.
 
 [3] Chew C C, Small E E, Larson K M, et al. Effects of near-surface soil moisture on GPS SNR data: Development of a retrieval algorithm for soil moisture[J]. IEEE Transactions on Geoscience and Remote Sensing, 2013, 52(1): 537-543.
+
