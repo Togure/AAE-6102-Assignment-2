@@ -79,7 +79,15 @@ The selection of an appropriate GNSS correction methodology requires careful con
 [4] Wabbena G, Schmitz M, Bagge A. PPP-RTK: precise point positioning using state-space representation in RTK networks[C]//Proceedings of the 18th international technical meeting of the satellite division of the Institute of navigation (ION GNSS 2005). 2005: 2584-2594.
 
 
-# Task 4
+# Task 2
+The skymask is a 361*2 matrix, containing the azimuth angle and elevation angle of the building silhouette in the skymask. In the collected urban dataset (90S), the azimuth and elevation of the satellite can be considered as relatively static (movement less than 1°). Therefore, each satellite's visibility can be distinguished directly, as shown in Fig.1.1.
+
+![Fig.1.1 The skyplot with skymask.](https://github.com/Togure/AAE-6102-Assignment-2/blob/main/skyplot.jpg)  
+
+
+
+
+# Task 3
 GenAI: Deepseek
 
 
