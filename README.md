@@ -80,11 +80,16 @@ The selection of an appropriate GNSS correction methodology requires careful con
 
 
 # Task 2
-The skymask is a 361*2 matrix, containing the azimuth angle and elevation angle of the building silhouette in the skymask. In the collected urban dataset (90S), the azimuth and elevation of the satellite can be considered as relatively static (movement less than 1°). Therefore, each satellite's visibility can be distinguished directly, as shown in Fig.1.1.
+The skymask is a 361*2 matrix, containing the azimuth angle and elevation angle of the building silhouette in the skymask. In the collected urban dataset (90S), the satellite's azimuth and elevation can be considered relatively static (movement less than 1°). Therefore, each satellite's visibility can be distinguished directly, as shown in Fig.1.1. The red dot is the NLOS satellite, and the blue dot is the LOS satellite.
 
 ![Fig.1.1 The skyplot with skymask.](https://github.com/Togure/AAE-6102-Assignment-2/blob/main/skyplot.jpg)  
 
+Based on the visibility of different satellites, we can give more weight to the signal obtained from the LOS satellite in WLS. However in the urban dataset, our SDR can only track 4 satellites. 4 observations and 4 variables result in only one solution. Therefore, based on our SDR system in Assignment 1, using skymask will not acquire obvious gains compared to the original LS.
 
+ ![.](https://github.com/Togure/GNSS-SDR/blob/main/figues/4.2.jpg)  
+ 
+Fig.1.2 is the result of urban. (a) shows the estimated velocity result. (b) is the positioning error. (c) is the positioning plot and sky-plot.
+(d) is the CDF of the positioning error of LS and WLS. 
 
 
 # Task 3
@@ -98,7 +103,7 @@ In the leastsquarepos.m, the step to calculate residual $Y$ is
 ```
 
 the residual of WLS and LS method are as follows, within 8 meters totally.
-![Fig.1.1 The residual of WLS and LS of open-sky dataset.](https://github.com/Togure/AAE-6102-Assignment-2/blob/main/residual.jpg)  
+![Fig.1.3 The residual of WLS and LS of open-sky dataset.](https://github.com/Togure/AAE-6102-Assignment-2/blob/main/residual.jpg)  
 
 then we calculate test statistics (WSSE) and T_{threshold} based on
 
@@ -119,7 +124,7 @@ where Qχ2,N−4(·) stands for the quantile function of Chi-square distribution
    dof = n_sat - 4;
    T_threshold = sqrt(chi2inv(1 - P_fa, dof));
 ```
-![Fig.1.2 Test statistics and T threshold.](https://github.com/Togure/AAE-6102-Assignment-2/blob/main/SSE.jpg)  
+![Fig.1.4 Test statistics and T threshold.](https://github.com/Togure/AAE-6102-Assignment-2/blob/main/SSE.jpg)  
 
 ## 2.Define 3D protection level (PL)
 
@@ -132,7 +137,7 @@ and the PL:
 
 $PL = \max \{SLOPE\}*T_{threshold}(N,P_{FA})  + k(P_{MD}) * \sigma $
 
-where σ = 3m, and k(PMD) = QN(1 − PMD/2) where QN(·) is the quantile function of standard normal distribution [1].
+where σ = 3m, and k(PMD) = QN(1 − PMD/2) where QN(·) is the quantile function of standard normal distribution [5].
 
 ```
    Pslope(i) = sqrt(sum((K(1:3,i)).^2)) * sqrt(1/W(i,i)) / sqrt(1-P(i,i));
@@ -140,9 +145,8 @@ where σ = 3m, and k(PMD) = QN(1 − PMD/2) where QN(·) is the quantile functio
 ```
 ## 3.Standford Chart
 
-![Fig.1.3 Standford Chart of the RAIM system.](https://github.com/Togure/AAE-6102-Assignment-2/blob/main/standford.jpg)  
+![Fig.1.5 Standford Chart of the RAIM system.](https://github.com/Togure/AAE-6102-Assignment-2/blob/main/standford.jpg)  
 
-[1] R. G. Brown, G. Y. Chin, and J. H. Kraemer, “RAIM: Will It Meet the RTCA GPS Minimum Operational Performance Standards?” in Proceedings of the 1991 National Technical Meeting of The Institute of Navigation, 1991, pp. 103–111. [Online]. Available: https://www.ion.org/publications/abstract.cfm?articleID=5020
 
 # Task 4
 GenAI: Deepseek
@@ -152,9 +156,9 @@ link: [https://github.com/Togure/AAE-6102-Assignment-2/edit/main/deepseek-Task4.
 
 ## 1. Introduction
 
-Low Earth Orbit (LEO) satellite constellations have emerged as a potential augmentation to traditional Global Navigation Satellite Systems (GNSS), offering several distinct advantages. Operating at altitudes between 500-2,000 km, LEO systems exhibit significantly lower signal latency (20-30 ms) compared to Medium Earth Orbit (MEO) systems like GPS (120 ms). The closer proximity to Earth enables received signal strengths 10-100 times greater than conventional GNSS, particularly beneficial for urban canyon and indoor positioning scenarios. Furthermore, the rapid orbital motion of LEO satellites provides faster geometric diversity, enhancing positioning robustness against obstructions and interference [1].
+Low Earth Orbit (LEO) satellite constellations have emerged as a potential augmentation to traditional Global Navigation Satellite Systems (GNSS), offering several distinct advantages. Operating at altitudes between 500-2,000 km, LEO systems exhibit significantly lower signal latency (20-30 ms) compared to Medium Earth Orbit (MEO) systems like GPS (120 ms). The closer proximity to Earth enables received signal strengths 10-100 times greater than conventional GNSS, particularly beneficial for urban canyon and indoor positioning scenarios. Furthermore, the rapid orbital motion of LEO satellites provides faster geometric diversity, enhancing positioning robustness against obstructions and interference [6].
 
-However, these advantages come with substantial technical challenges. The high orbital velocity induces severe Doppler effects, while the limited coverage area of individual satellites necessitates large constellation sizes. Additionally, the dynamic LEO environment subjects satellites to pronounced atmospheric drag and gravitational perturbations, requiring frequent orbit determination updates. This paper systematically examines these challenges through current and proposed LEO navigation systems, including Iridium's operational STL service, SpaceX's experimental Starlink utilization, Xona's dedicated Pulsar constellation, and China's planned Hunyuan system. The analysis concludes with recommended mitigation strategies for future LEO navigation implementations [2].
+However, these advantages come with substantial technical challenges. The high orbital velocity induces severe Doppler effects, while the limited coverage area of individual satellites necessitates large constellation sizes. Additionally, the dynamic LEO environment subjects satellites to pronounced atmospheric drag and gravitational perturbations, requiring frequent orbit determination updates. This paper systematically examines these challenges through current and proposed LEO navigation systems, including Iridium's operational STL service, SpaceX's experimental Starlink utilization, Xona's dedicated Pulsar constellation, and China's planned Hunyuan system. The analysis concludes with recommended mitigation strategies for future LEO navigation implementations [7].
 
 ## 2. Fundamental Technical Challenges
 
@@ -188,10 +192,6 @@ Modern receiver designs must incorporate several key innovations to address LEO 
 
 The analysis reveals three principal findings regarding LEO navigation systems. First, Doppler management remains the primary technical challenge, requiring receiver processing capabilities substantially beyond current GNSS designs. Second, economic viability depends critically on dual-use infrastructure models that combine communication and navigation services. Third, successful deployment requires international standardization efforts addressing signal interoperability and spectrum sharing between LEO and GNSS systems. Future development should prioritize open signal interfaces, dynamic spectrum management frameworks, and multi-constellation interoperability standards to realize the full potential of LEO navigation augmentation.
 
-## Reference List
-[1] Prol F S, Ferre R M, Saleem Z, et al. Position, navigation, and timing (PNT) through low earth orbit (LEO) satellites: A survey on current status, challenges, and opportunities[J]. IEEE access, 2022, 10: 83971-84002.
-
-[2] Zhao X, Zhou S, Ci Y, et al. High-precision orbit determination for a LEO nanosatellite using BDS-3[J]. GPS Solutions, 2020, 24: 1-14.
 
 # Task 5
 GenAI: Deepseek
@@ -207,17 +207,17 @@ The core principle of GNSS-IR lies in analyzing interference patterns between di
 
 ## Geometric Applications: Sea Level and Structural Height
 
-One of the most established applications of GNSS-IR is sea level altimetry [1]. Coastal GNSS stations, often installed for geodetic purposes, can double as tide gauges by analyzing reflections from the water surface. As tides rise or fall, the path length of the reflected signal changes, altering the interference frequency in the SNR data. Studies demonstrate that GNSS-IR can achieve sub-centimeter accuracy in sea level measurements when calibrated against traditional tide gauges. For example, the Plate Boundary Observatory in Alaska uses GNSS-IR to monitor tidal variations, complementing satellite altimetry in regions with sparse instrumentation.
+One of the most established applications of GNSS-IR is sea level altimetry [8]. Coastal GNSS stations, often installed for geodetic purposes, can double as tide gauges by analyzing reflections from the water surface. As tides rise or fall, the path length of the reflected signal changes, altering the interference frequency in the SNR data. Studies demonstrate that GNSS-IR can achieve sub-centimeter accuracy in sea level measurements when calibrated against traditional tide gauges. For example, the Plate Boundary Observatory in Alaska uses GNSS-IR to monitor tidal variations, complementing satellite altimetry in regions with sparse instrumentation.
 
 Similarly, GNSS-IR can estimate the height of adjacent structures when antennas are mounted on buildings or towers. If a GNSS antenna is installed on a rooftop, reflections from nearby surfaces (e.g., another building or the ground) produce SNR patterns that reveal the relative height difference. This technique has been validated in urban environments, where it aids in 3D mapping without LiDAR. However, accuracy depends on surface roughness; flat, horizontal reflectors yield the most reliable results.
 
 ## Geometric Applications: Distance to the Building's Reflection Surface
-In urban-area GNSS positioning, the reflection of GNSS signal can be modeled to mitigate the positioning impair derived from multipath effect. To simulate the signal propagation process, the distance from the receiver to the building surface is critical to be calculated. This requirement can be achieved by GNSS-IR [2], which is similar to the sea-level detection. Therefore, GNSS-IR has potential to be applied in environment constructure and GNSS positioning.
+In urban-area GNSS positioning, the reflection of GNSS signal can be modeled to mitigate the positioning impair derived from multipath effect. To simulate the signal propagation process, the distance from the receiver to the building surface is critical to be calculated. This requirement can be achieved by GNSS-IR [9], which is similar to the sea-level detection. Therefore, GNSS-IR has potential to be applied in environment constructure and GNSS positioning.
 
 
 ## Advantages Over Conventional Methods
 
-GNSS-IR offers unique advantages for geometric remote sensing [3]. Unlike radar or LiDAR, it requires no dedicated transmitter, leveraging existing GNSS constellations like GPS or Galileo. This makes it a low-cost solution for continuous monitoring. Its temporal resolution—often minutes to hours—surpasses that of satellite-based altimetry, capturing dynamic processes like storm surges or structural settling. Moreover, GNSS-IR operates in all weather conditions, unaffected by clouds or darkness, a limitation of optical techniques.
+GNSS-IR offers unique advantages for geometric remote sensing [10]. Unlike radar or LiDAR, it requires no dedicated transmitter, leveraging existing GNSS constellations like GPS or Galileo. This makes it a low-cost solution for continuous monitoring. Its temporal resolution—often minutes to hours—surpasses that of satellite-based altimetry, capturing dynamic processes like storm surges or structural settling. Moreover, GNSS-IR operates in all weather conditions, unaffected by clouds or darkness, a limitation of optical techniques.
 
 ## Broader Context: Soil Moisture and Vegetation
 
@@ -235,11 +235,24 @@ Advancements in multi-frequency GNSS (e.g., GPS L5, Galileo E5) promise to mitig
 
 GNSS-IR has carved a niche in geometric remote sensing, offering a passive, cost-effective means to measure sea levels, structural heights, and land surface dynamics. While its applications in soil moisture and vegetation monitoring are noteworthy, its precision in altimetry and height estimation sets it apart from conventional methods. As GNSS constellations evolve and algorithms mature, GNSS-IR could democratize access to high-frequency geometric data, bridging gaps in global environmental and urban monitoring systems.
 
-## Reference List
+# Reference List
+[1] Hofmann-Wellenhof B, Lichtenegger H, Wasle E. GNSS–global navigation satellite systems: GPS, GLONASS, Galileo, and more[M]. Springer Science & Business Media, 2007.
 
-[1] Larson K M, Löfgren J S, Haas R. Coastal sea level measurements using a single geodetic GPS receiver[J]. Advances in space research, 2013, 51(8): 1301-1310.
+[2] Takasu T, Yasuda A. Development of the low-cost RTK-GPS receiver with an open source program package RTKLIB[C]//International symposium on GPS/GNSS. Seogwipo-si, Republic of Korea: International Convention Center Jeju Korea, 2009, 1: 1-6.
 
-[2] Ye M, Zhang G, Hsu L T. Building model rectification using GNSS reflectometry[J]. IEEE Geoscience and Remote Sensing Letters, 2024.
+[3] Zumberge J F, Heflin M B, Jefferson D C, et al. Precise point positioning for the efficient and robust analysis of GPS data from large networks[J]. Journal of geophysical research: solid earth, 1997, 102(B3): 5005-5017.
 
-[3] Chew C C, Small E E, Larson K M, et al. Effects of near-surface soil moisture on GPS SNR data: Development of a retrieval algorithm for soil moisture[J]. IEEE Transactions on Geoscience and Remote Sensing, 2013, 52(1): 537-543.
+[4] Wabbena G, Schmitz M, Bagge A. PPP-RTK: precise point positioning using state-space representation in RTK networks[C]//Proceedings of the 18th international technical meeting of the satellite division of the Institute of navigation (ION GNSS 2005). 2005: 2584-2594.
+
+[5] R. G. Brown, G. Y. Chin, and J. H. Kraemer, “RAIM: Will It Meet the RTCA GPS Minimum Operational Performance Standards?” in Proceedings of the 1991 National Technical Meeting of The Institute of Navigation, 1991, pp. 103–111. [Online]. Available: https://www.ion.org/publications/abstract.cfm?articleID=5020
+
+[6] Prol F S, Ferre R M, Saleem Z, et al. Position, navigation, and timing (PNT) through low earth orbit (LEO) satellites: A survey on current status, challenges, and opportunities[J]. IEEE access, 2022, 10: 83971-84002.
+
+[7] Zhao X, Zhou S, Ci Y, et al. High-precision orbit determination for a LEO nanosatellite using BDS-3[J]. GPS Solutions, 2020, 24: 1-14.
+
+[8] Larson K M, Löfgren J S, Haas R. Coastal sea level measurements using a single geodetic GPS receiver[J]. Advances in space research, 2013, 51(8): 1301-1310.
+
+[9] Ye M, Zhang G, Hsu L T. Building model rectification using GNSS reflectometry[J]. IEEE Geoscience and Remote Sensing Letters, 2024.
+
+[10] Chew C C, Small E E, Larson K M, et al. Effects of near-surface soil moisture on GPS SNR data: Development of a retrieval algorithm for soil moisture[J]. IEEE Transactions on Geoscience and Remote Sensing, 2013, 52(1): 537-543.
 
